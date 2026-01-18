@@ -28,7 +28,7 @@ for INPUT_FILE in "$INPUT_DIR"/*.sh; do
     echo "" >> "$OUTPUT_FILE"
     echo "### Available functions" >> "$OUTPUT_FILE"
     # Extract functions and their comments
-    awk -f generate-docs.awk "$INPUT_FILE" >> "$OUTPUT_FILE"
+    awk -f /.github/scripts/generate-docs.awk "$INPUT_FILE" >> "$OUTPUT_FILE"
 done
 
 if [[ -f README.tail ]]; then

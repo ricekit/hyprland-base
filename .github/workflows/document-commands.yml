@@ -29,8 +29,7 @@ jobs:
       - name: Generate documentation
         id: generate_docs
         run: |
-          chmod +x scripts/generate-docs.sh
-          ./scripts/generate-docs.sh commands.sh README.md
+          ./github/workflows/generate-docs.sh scripts.d README.md
       - name: Check for changes
         id: check_changes
         run: |
