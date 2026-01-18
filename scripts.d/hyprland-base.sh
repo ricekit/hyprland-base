@@ -59,4 +59,4 @@ remove_permissions() {
 # Creates the HYPRCONFIG_DIR variable (pointing to the Hyprland config directory) for use in other functions
 export HYPRCONFIG_DIR=${HOME}/.config/hypr/
 # Replaces hardcoded paths in configuration files with the ACTIVE_RICEKIT_PATH variable 
-find ${HOME} -type f -size -1M -exec sed -iE '/^~|^\/app\/rice-in/${ACTIVE_RICEKIT_PATH}/' {} \;
+find ${HOME} -type f -size -1M -exec sed -iE '/^~|^\/app\/rice-in/${ACTIVE_RICEKIT_PATH}/' {} \; 
