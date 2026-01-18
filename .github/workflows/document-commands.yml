@@ -37,19 +37,19 @@ jobs:
           if git ls-files --error-unmatch README.md >/dev/null 2>&1; then
             # File exists in git, check for changes
             if git diff --quiet README.md; then
-              echo "changed=false" >> $GITHUB_OUTPUT
+              echo "set-output name=changed::false" 
               echo "No changes to documentation"
             else
-              echo "changed=true" >> $GITHUB_OUTPUT
+              echo "set-output name=changed::true" 
               echo "Documentation has been updated"
             fi
           else
             # File doesn't exist in git yet, check if it was created
             if [[ -f README.md ]]; then
-              echo "changed=true" >> $GITHUB_OUTPUT
+              echo "set-output name=changed::true"
               echo "New documentation file created"
             else
-              echo "changed=false" >> $GITHUB_OUTPUT
+              echo "set-output name=changed::false"
               echo "No documentation file generated"
             fi
           fi
@@ -60,7 +60,7 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add README.md
-          git commit -m "docs: auto-update commands.sh documentation [skip ci]"
+          git commit -m "docs: auto-update documentation [skip ci]"
           git push
       
       - name: Comment on PR
@@ -76,5 +76,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `## 📝 Auto-Generated Documentation Updated\n\nThe \`commands.sh\` file has been modified. Here's the updated documentation:\n\n<details>\n<summary>View Documentation</summary>\n\n${documentation}\n\n</details>`
+              body: `## 📝 Auto-Generated Documentation Updated`
             });
