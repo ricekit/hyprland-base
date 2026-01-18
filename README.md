@@ -4,13 +4,15 @@ Provides base container for creating Hyprland ricings with [Ricehub](https://git
 ## Modules provided
 
 # Hyprland base
-## This script contains functions to modify the Hyprland configuration file
-## to suit the Ricekit environment. It includes functions to add user-specific
-## configurations, modularise the config file, and remove hardware-specific
-## settings such as monitor and input device configurations.
+ This script contains functions to modify the Hyprland configuration file
+ to suit the Ricekit environment. It includes functions to add user-specific
+ configurations, modularise the config file, and remove hardware-specific
+ settings such as monitor and input device configurations.
 
 ### Available functions
 ### `add_user_config()`
+
+Append user-specific configurations
 
 ### `modularise_config()`
 
