@@ -1,12 +1,14 @@
 BEGIN {
-    prev_line = ""
-    in_function = 0
+    comment_block = ""
+    in_header = 1
 }
 
 # Store comment lines that appear before functions
-/^#/ && !in_function {
-    comment = $0
-    sub(/^# ?/, "", comment)
+/^#/ {
+    comment_line = $0
+    sub(/^# ?/, "", comment_line)
+    comment_block = comment_block comment_line "\n"
+    
     next
 }
 
@@ -16,35 +18,27 @@ BEGIN {
     sub(/\(\).*/, "", func_name)
     
     # Print function header
-    print "### `" func_name "()`"
+    print "### " func_name
     print ""
     
     # Print comment if it exists
-    if (comment != "") {
-        print comment
+    if (comment_block != "") {
+        print comment_block
         print ""
-        comment = ""
+        comment_block = ""
     }
-    
-    in_function = 1
-    brace_count = 0
+
     next
 }
 
-# Track braces to find function body
-in_function {
-    if ($0 ~ /{/) brace_count++
-    if ($0 ~ /}/) brace_count--
-    
-    # End of function
-    if (brace_count == 0 && $0 ~ /^}/) {
-        in_function = 0
-        print "---"
-        print ""
+# Handle all other lines (not comments, not function definitions)
+{
+    if (in_header) {
+        print comment_block
+        print "### Available functions\n"
     }
+
+    in_header = 0
+    comment_block = ""
 }
 
-# Clear comment on blank lines when not in function
-/^$/ && !in_function {
-    comment = ""
-}

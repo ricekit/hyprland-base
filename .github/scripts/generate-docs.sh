@@ -1,11 +1,10 @@
 #!/bin/bash
 
 # Script to extract function names and their top comments from commands.sh
-# Usage: ./generate-docs.sh [input_file] [output_file]
-# Default: ./generate-docs.sh commands.sh README.md
+# Usage: ./generate-docs.sh [input_dir]
+# Default: ./generate-docs.sh scripts.d
 
 INPUT_DIR="${1:-scripts.d}"
-OUTPUT_FILE="${2:-README.md}"
 
 # Check if input directory exists
 if [[ ! -d "$INPUT_DIR" ]]; then
@@ -15,20 +14,23 @@ fi
 
 # Generate documentation header if README.head exists, otherwise create basic header
 if [[ -f "README.head" ]]; then
-    cat README.head > "$OUTPUT_FILE"
+    cat README.head > README.md
 fi
 
-echo "" >> "$OUTPUT_FILE"
-echo "## Modules provided" >> "$OUTPUT_FILE"
-echo "" >> "$OUTPUT_FILE"
+echo "" >> README.md
+echo "## Modules provided" >> README.md
+echo "" >> README.md
+mkdir -p docs
 
 for INPUT_FILE in "$INPUT_DIR"/*.sh; do
-    sed -n '/^#/{s/^# ?//;p;}' "$INPUT_FILE" | head -n 1 >> "$OUTPUT_FILE"
-    sed -n '/^##/{s///;p;}' "$INPUT_FILE" >> "$OUTPUT_FILE"
-    echo "" >> "$OUTPUT_FILE"
-    echo "### Available functions" >> "$OUTPUT_FILE"
-    # Extract functions and their comments
-    awk -f .github/scripts/generate-docs.awk "$INPUT_FILE" >> "$OUTPUT_FILE"
+    MODULE_NAME=$(basename "$INPUT_FILE" .sh)
+    OUTPUT_FILE="docs/${MODULE_NAME}.md"
+
+    echo "* [${MODULE_NAME}](${OUTPUT_FILE})" >> README.md
+    
+    # Extract module description (first comment block)
+    # Then extract functions and their comments
+    awk -f .github/scripts/generate-docs.awk "$INPUT_FILE" > "$OUTPUT_FILE"
 done
 
 if [[ -f README.tail ]]; then

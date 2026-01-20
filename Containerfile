@@ -6,8 +6,10 @@ LABEL org.opencontainers.image.version="0.0.8"
 LABEL org.opencontainers.image.author="Josh Andrews <joshurtree@gmail.com>"
 
 RUN apk add --no-cache sed curl bash
+SHELL ["/bin/bash", "-c"]
 RUN mkdir /app
 ENV HOME=/app/rice-in
 WORKDIR /app
 COPY . .
+
 ENTRYPOINT [ "./entrypoint.sh" ]
