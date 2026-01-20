@@ -154,7 +154,7 @@ remove_permissions() {
 # directory structures if needed.
 export HYPRCONFIG_DIR=${HOME}/.config/hypr/
 
-# Search through all small files (under 1MB) in the user's home directory and
+# Search through all small files (under 500k) in the user's home directory and
 # replace hardcoded absolute paths with the ACTIVE_RICEKIT_PATH variable.
 # This ensures that configuration files still point to their resources correctly
 # on the host system.
@@ -166,4 +166,4 @@ export HYPRCONFIG_DIR=${HOME}/.config/hypr/
 # By replacing these with ${ACTIVE_RICEKIT_PATH}, configurations become
 # location-independent and will work correctly without ricekit having to
 # install them directly to the home directory of the host system.
-find ${HOME} -type f -size "-1M" -exec sed -iE '/^~|^\/app\/rice-in/${ACTIVE_RICEKIT_PATH}/' {} \;
+find ${HOME} -type f -size "-500k" -exec sed -iE '/^~|^\/app\/rice-in/${ACTIVE_RICEKIT_PATH}/' {} \;
