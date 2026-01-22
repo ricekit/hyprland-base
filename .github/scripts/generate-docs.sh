@@ -2,9 +2,9 @@
 
 # Script to extract function names and their top comments from commands.sh
 # Usage: ./generate-docs.sh [input_dir]
-# Default: ./generate-docs.sh scripts.d
+# Default: ./generate-docs.sh profile.d
 
-INPUT_DIR="${1:-scripts.d}"
+INPUT_DIR="${1:-profile.d}"
 
 # Check if input directory exists
 if [[ ! -d "$INPUT_DIR" ]]; then
