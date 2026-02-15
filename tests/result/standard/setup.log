@@ -1,0 +1,11 @@
+Cloning https://github.com/YAWTUUYAS/hyprland-riced...
+Checking out main...
+Your branch is up to date with 'origin/main'.
+Copying files to /app/riceuser/
+Successfully fetched https://github.com/YAWTUUYAS/hyprland-riced (tag: main)
+Cloned repositories.
+Running command: mv ~/config ~/.config
+Running command: rm -rf ~/screenshots
+Running command: hyprland_remove_input
+Running command: hyprland_modularlise_config
+Sourced scripts from /app/script.d.

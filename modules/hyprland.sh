@@ -14,7 +14,7 @@
 # configuration that can be shared and version-controlled while preserving
 # user-specific customizations.
 
-source hyprlang.sh
+set_wm("hyprland" "${CURRENT_RICING_DIR}/.config/hypr" "${HOME}/.config/hypr/hyprland.conf")
 
 # Appends user-specific configuration file sources to the main Hyprland config.
 # This enables users to maintain their own personalized settings that will be
@@ -62,18 +62,18 @@ add_user_config() {
 # a large monolithic file.
 hyprland_modularise_config() {
     module_tuples=(
-        "autostart;^exec(-once)?\s*="           # Startup applications and autostart commands
-        "environment;^env\s*="                   # Environment variable definitions
-        "permissions;^permission\s*=|^ecosystem\s*\{,/^\}"  # Permission and ecosystem settings
-        "general;^general\s*\{,/^\}"            # General Hyprland settings and appearance
-        "decoration;^decoration\s*\{,/^\}"      # Window decorations, shadows, blur effects
-        "animations;^animations\s*\{,/^\}"      # Animation configurations and curves
-        "workspace-rules;^workspace\s*="        # Workspace-specific rules and behaviors
-        "layout;^(dwindle|master)\s*\{,/^\}"    # Tiling layout configurations (dwindle or master)
-        "misc;^misc\s*\{,/^\}"                  # Miscellaneous Hyprland settings
-        "gestures;^gesture\s*="                 # Touchpad gesture configurations
-        "keybinds;^bind[melr1]*\s*="            # Keyboard and mouse keybinding definitions
-        "window-rules;^windowrule\s*\{,/^\}"    # Per-window rules and exceptions
+        'autostart;^exec(-once)?\s*='           # Startup applications and autostart commands
+        'environment;^env\s*='                   # Environment variable definitions
+        'permissions;^permission\s*=|^ecosystem\s*\{,/^\}'  # Permission and ecosystem settings
+        'general;^general\s*\{,/^\}'            # General Hyprland settings and appearance
+        'decoration;^decoration\s*\{,/^\}'      # Window decorations, shadows, blur effects
+        'animations;^animations\s*\{,/^\}'      # Animation configurations and curves
+        'workspace-rules;^workspace\s*='        # Workspace-specific rules and behaviors
+        'layout;^(dwindle|master)\s*\{,/^\}'    # Tiling layout configurations (dwindle or master)
+        'misc;^misc\s*\{,/^\}'                  # Miscellaneous Hyprland settings
+        'gestures;^gesture\s*='                 # Touchpad gesture configurations
+        'keybinds;^bind[melr1]*\s*='            # Keyboard and mouse keybinding definitions
+        'window-rules;^windowrule\s*\{,/^\}'    # Per-window rules and exceptions
     )
 
     # Iterate through each module tuple to extract and organize configuration sections

@@ -1,0 +1,78 @@
+@define-color bg rgba(30, 30, 30, 0.9);
+@define-color bg-alt rgba(50, 50, 50, 0.8);
+@define-color border #ff4444;
+@define-color text #e0e0e0;
+@define-color text-alt #ffffff;
+@define-color accent #ff4444;
+@define-color accent-alt #ff0000;
+
+* {
+    font-family: 'CaskaydiaCove Nerd Font', monospace;
+    font-size: 14px;
+    border-radius: 12px;
+}
+
+window {
+    margin: 0px;
+    padding: 8px;
+    border: 1px solid @border;
+    background-color: @bg;
+    border-radius: 16px;
+}
+
+#input {
+    margin: 4px 8px;
+    padding: 8px;
+    border: none;
+    color: @text-alt;
+    background-color: @bg-alt;
+    border-radius: 12px;
+}
+
+#inner-box {
+    margin: 4px;
+    padding: 8px;
+    background-color: transparent;
+}
+
+#outer-box {
+    margin: 4px;
+    padding: 8px;
+    background-color: transparent;
+}
+
+#scroll {
+    margin: 0px;
+    padding: 8px;
+    background-color: transparent;
+}
+
+#entry {
+    padding: 6px 8px;
+    background-color: transparent;
+    border-radius: 8px;
+}
+
+#entry:selected {
+    background-color: @bg-alt;
+    border: 1px solid @accent;
+}
+
+#text {
+    color: @text;
+    margin: 2px;
+}
+
+#entry:selected #text {
+    color: @accent-alt;
+    font-weight: bold;
+}
+
+#input image {
+    color: @accent;
+}
+
+#input * {
+    outline: 2px solid @accent !important;
+    border-radius: 8px;
+}
