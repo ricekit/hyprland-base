@@ -14,7 +14,9 @@
 # configuration that can be shared and version-controlled while preserving
 # user-specific customizations.
 
-set_wm("hyprland" "${CURRENT_RICING_DIR}/.config/hypr" "${HOME}/.config/hypr/hyprland.conf")
+use_hyprland() {
+    set_wm "Hyprland" "${CURRENT_RICING_DIR}/.config/hypr" "${HOME}/.config/hypr/hyprland.conf"
+} 
 
 # Appends user-specific configuration file sources to the main Hyprland config.
 # This enables users to maintain their own personalized settings that will be
@@ -81,9 +83,9 @@ hyprland_modularise_config() {
         # Split the tuple into filename and regex pattern components
         IFS=';' read -r filename pattern <<< "$tuple"
         # Extract lines matching the pattern and write them to a dedicated module file
-        sed -E -n "/$pattern/d" ${HYPRCONFIG_DIR}/hyprland.conf > ${HYPRCONFIG_DIR}/configs/$filename.conf
+        sed -E -n "/$pattern/p" ${HYPRCONFIG_DIR}/hyprland.conf > ${HYPRCONFIG_DIR}/configs/$filename.conf
         # Remove the extracted lines from the main configuration file to avoid duplication
-        sed -iE "/$pattern/!d" ${HYPRCONFIG_DIR}/hyprland.conf
+        sed -iE "/$pattern/d" ${HYPRCONFIG_DIR}/hyprland.conf
         # Add a source directive to load the newly created module file
         echo "source=${HYPRCONFIG_DIR}/configs/$filename.conf" >> ${HYPRCONFIG_DIR}/hyprland.conf
     done

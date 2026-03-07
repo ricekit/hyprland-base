@@ -1,2 +1,6 @@
 Cloned repositories.
+Sourcing /app/script.d/common.sh
+Sourcing /app/script.d/hyprland.sh
+Sourcing /app/script.d/hyprlang.sh
+Sourcing /app/script.d/wofi.sh
 Sourced scripts from /app/script.d.

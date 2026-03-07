@@ -12,7 +12,7 @@ dependencies:
     - wofi
     - wlogout
 commands:
-    - mv ~/config ~/.config
-    - rm -rf ~/screenshots
+    - mv ${ACTIVE_RICEKIT_PATH}/config ~/.config
+    - rm -rf ${ACTIVE_RICEKIT_PATH}/screenshots
     - hyprland_remove_input
     - hyprland_modularlise_config

@@ -1,12 +1,22 @@
 #!/bin/bash
 # A simple test script to verify the functionality of a sample application
-TEST_RICINGS_DIR="ricings"
 
 # Ensure that we are in the correct directory
 cd "$(dirname "$0")" || exit 1
 
+RICEKIT_DIR="../../ricekit"
+DOCKERFILE="$RICEKIT_DIR/resources/Dockerfile"
+TEST_RICINGS_DIR="$RICEKIT_DIR/tests/ricings"
+# Check if ricekit is available in the parent directory
+if [ -r "$DOCKERFILE" ] && [ -d "$TEST_RICINGS_DIR" ]; then
+    echo "Ricekit found in parent directory, using it for testing."
+else
+    echo "Ricekit not found in parent directory. Please ensure that ricekit is available for testing."
+    exit 1
+fi
+
 if [ $# -eq 0 ]; then
-    ricings=$(ls $TEST_RICINGS_DIR/*.yaml -1 | xargs -n 1 basename | sed 's/\.yaml$//')
+    ricings=$(ls "$TEST_RICINGS_DIR"/*.yaml -1 | xargs -n 1 basename | sed 's/\.yaml$//')
 else
     # Get the list of files from command line arguments excluding arguments starting with --
     ricings=$(echo "$@" | sed 's/--[a-zA-Z]*//g')
@@ -18,6 +28,7 @@ else
     echo "Failed to build base image."
     exit 1
 fi
+
 echo -e "Running tests in directories:\n $ricings"
 
 for ricing in $ricings; do
@@ -30,7 +41,7 @@ for ricing in $ricings; do
         docker rmi $image --force
     fi
     echo "Running test in $(realpath "build/$ricing")"
-    if docker build -t $image -f "Dockerfile" "build/$ricing" --build-arg RICEKIT_BASE=test-base --build-arg RICEKIT_VERSION=latest; then
+    if docker build -t $image -f "$DOCKERFILE" "build/$ricing" --build-arg REPO="" --build-arg RICEKIT_BASE=test-base --build-arg RICEKIT_VERSION=latest; then
         echo "Image built successfully for $ricing."
     else
         echo "Failed to build image for $ricing."
@@ -41,8 +52,9 @@ for ricing in $ricings; do
     mkdir -p "$RESULT"
 
     # Copy files from container to host
-    docker run --rm -v "$(realpath "$RESULT"):/app/rice-out" $image sh -c 'cp -R /app/riceuser/. /app/rice-out/ && chown -R $(stat -c %u:%g /app/rice-out) /app/rice-out'
-    docker run --rm -v "$RESULT:/app/rice-out" $image cp /app/setup.log /app/rice-out/
+    CONTAINER=$(docker create -v "$(realpath "$RESULT"):/app/rice-out" $image)
+    docker start -a $CONTAINER > "$RESULT/setup.log"
+    docker rm $CONTAINER --force
     echo "Test completed for $ricing, results are in $RESULT"
 
     if [[ " ${@} " =~ " --keep " ]]; then

@@ -79,13 +79,13 @@ fi
 # Clone repositories if specified
 # It can be just a URL or a map with url and destination
 # The branch/tag is specified by appending #branch_or_tag to the URL
-for repo_entry in $(yq '.alt_sources[]' "$RICING_FILE"); do
-    fetch_source "$repo_entry"
-done
+if [ $(yq '.alt_sources' "$RICING_FILE") != "null" ]; then
+    for repo_entry in $(yq '.alt_sources[]' "$RICING_FILE"); do
+        fetch_source "$repo_entry"
+    done
+fi
 
 echo "Cloned repositories."
-
-WM="$(yq -e '.target' "$RICING_FILE")"
 
 # Source the scripts from script.d
 for script in /app/script.d/*.sh; do
@@ -95,10 +95,17 @@ for script in /app/script.d/*.sh; do
     fi
 done
 
-# Run commands from ricing.yaml
-while IFS= read -r cmd; do
-    echo "Running command: $cmd"
-    eval "$cmd"
-done < <(yq '.commands[]' "$RICING_FILE")
+"use_$(yq -e '.target' "$RICING_FILE")"
 
 echo "Sourced scripts from /app/script.d."
+
+# Run commands from ricing.yaml
+if [ $(yq '.commands' "$RICING_FILE") != "null" ]; then
+    echo "Running commands from $RICING_FILE"
+    while IFS= read -r cmd; do
+        echo "Running command: $cmd"
+        eval "$cmd"
+    done < <(yq '.commands[]' "$RICING_FILE")
+fi
+cp -R /app/riceuser/. /app/rice-out/ 
+sudo chown -R $(stat -c %u:%g /app/rice-out) /app/rice-out

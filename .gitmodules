@@ -1,3 +1,0 @@
-[submodule "tests/ricings"]
-	path = tests/ricings
-	url = https://github.com/ricekit/test-ricings
